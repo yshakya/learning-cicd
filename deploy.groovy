@@ -25,7 +25,7 @@ pipeline {
                 chmod 600 ~/.ssh/known_hosts
                 '''
             }
-
+        }
         stage('SSH Key Access') {
             steps {
                 sh '''
@@ -34,8 +34,14 @@ pipeline {
                 chmod 400 mykey.pem
                 ssh-keygen -R ${params.SERVER_IP}
                 '''
-            }    
+            }   
         }
+        stage('Deploy Code to Server') {
+            steps {
+                sh '''
+                ssh -t ubuntu@${params.SERVER_IP} -i mykey.pem 'cd /var/www/html && git pull origin main'
+                '''
+            }
         }
 
     }
