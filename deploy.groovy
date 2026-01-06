@@ -1,10 +1,10 @@
 pipeline {
-    agent any
-        // docker {
-        //     image 'yamanshakya/ssh-client'
-        //     args '-u 0:0'
-        // }
-    // }
+    agent {
+        docker {
+            image 'yamanshakya/ssh-client'
+            args '-u 0:0'
+        }
+    }
 
     environment {
         SSH_KEY64 = credentials('SSH_KEY64')
